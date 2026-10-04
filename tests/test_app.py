@@ -17,3 +17,23 @@ def test_health_returns_ok() -> None:
 
     assert response.status_code == 200
     assert response.json() == {"status": "ok"}
+
+
+def test_predict_returns_setosa_for_setosa_sample() -> None:
+    sample = {
+        "sepal_length": 5.1,
+        "sepal_width": 3.5,
+        "petal_length": 1.4,
+        "petal_width": 0.2,
+    }
+
+    response = client.post("/predict", json=sample)
+
+    assert response.status_code == 200
+    assert response.json() == {"prediction": "setosa"}
+
+
+def test_predict_rejects_invalid_input() -> None:
+    response = client.post("/predict", json={"sepal_length": "abc"})
+
+    assert response.status_code == 422
