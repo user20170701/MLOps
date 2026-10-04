@@ -1,67 +1,69 @@
 # MLOps
 
-Projekt do kursu MLOps: serwowanie modelu ML z FastAPI i Dockerem.
+**English** | [Polski](README.pl.md)
 
-## Lab 1: wprowadzenie do MLOps
+MLOps course project: serving an ML model with FastAPI and Docker.
 
-Aplikacja udostępnia przez REST API model klasyfikujący gatunek irysa
-(setosa, versicolor, virginica) na podstawie 4 wymiarów kwiatu.
+## Lab 1: Introduction to MLOps
 
-## Narzędzia
+The application exposes a REST API with a model that classifies iris species
+(setosa, versicolor, virginica) based on 4 flower measurements.
 
-- **uv**: zarządzanie zależnościami (`pyproject.toml`, `uv.lock`)
-- **pre-commit**: Ruff (linter i formatter) oraz Xenon (złożoność kodu)
-- **pydantic-settings** i pliki `.env`: konfiguracja dla środowisk dev, test i prod
-- **sops** i GPG: szyfrowanie sekretów (`secrets.yaml`)
-- **FastAPI**: serwer z endpointami `/`, `/health` i `/predict`
-- **pytest**: testy konfiguracji i API
-- **Docker** i Docker Compose: konteneryzacja aplikacji
+## Tools
 
-## Struktura projektu
+- **uv**: dependency management (`pyproject.toml`, `uv.lock`)
+- **pre-commit**: Ruff (linter and formatter) and Xenon (code complexity)
+- **pydantic-settings** and `.env` files: configuration for dev, test and prod environments
+- **sops** and GPG: secrets encryption (`secrets.yaml`)
+- **FastAPI**: web server with `/`, `/health` and `/predict` endpoints
+- **pytest**: configuration and API tests
+- **Docker** and Docker Compose: application containerization
 
-| Plik / katalog | Opis |
+## Project structure
+
+| File / directory | Description |
 |---|---|
-| `training.py` | trenuje model i zapisuje go do `model.joblib` |
-| `inference.py` | wczytuje model i wykonuje predykcję |
-| `app.py` | serwer FastAPI |
-| `api/models/` | modele Pydantic żądania i odpowiedzi |
-| `settings.py`, `main.py` | wczytywanie konfiguracji i sekretów |
-| `config/` | pliki `.env` dla środowisk |
-| `tests/` | testy |
+| `training.py` | trains the model and saves it to `model.joblib` |
+| `inference.py` | loads the model and runs predictions |
+| `app.py` | FastAPI server |
+| `api/models/` | Pydantic request and response models |
+| `settings.py`, `main.py` | configuration and secrets loading |
+| `config/` | `.env` files for each environment |
+| `tests/` | tests |
 
-## Uruchomienie
+## Usage
 
-Instalacja zależności:
+Install dependencies:
 
 ```bash
 uv sync
 ```
 
-Trening modelu:
+Train the model:
 
 ```bash
 uv run python training.py
 ```
 
-Serwer lokalnie (dokumentacja API: http://localhost:8000/docs):
+Run the server locally (API docs: http://localhost:8000/docs):
 
 ```bash
 uv run uvicorn app:app --reload --port 8000
 ```
 
-Testy:
+Run tests:
 
 ```bash
 uv run pytest tests -rP
 ```
 
-Docker:
+Run with Docker:
 
 ```bash
 docker compose up
 ```
 
-## Przykładowe zapytanie
+## Example request
 
 ```bash
 curl -X POST http://localhost:8000/predict \
@@ -69,7 +71,7 @@ curl -X POST http://localhost:8000/predict \
   -d '{"sepal_length": 5.1, "sepal_width": 3.5, "petal_length": 1.4, "petal_width": 0.2}'
 ```
 
-Odpowiedź:
+Response:
 
 ```json
 {"prediction": "setosa"}
