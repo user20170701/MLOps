@@ -1,0 +1,16 @@
+   services:
+     ml-app:
+       build: .
+       ports:
+         - "8000:8000"
+       develop:
+         # Sync code changes into the running container without rebuilding
+         watch:
+           - action: sync
+             path: .
+             target: /app
+             ignore:
+               - .venv/
+           # Rebuild the image when dependencies change
+           - action: rebuild
+             path: ./pyproject.toml
